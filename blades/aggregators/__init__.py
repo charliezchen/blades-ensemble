@@ -4,6 +4,7 @@ from .clippedclustering import Clippedclustering
 from .multikrum import Multikrum
 from .signguard import Signguard
 from .ensemble import EnsembleAggregator
+from .randomensemble import RandomEnsembleAggregator
 
 __all__ = classes = [
     "Mean",
@@ -16,4 +17,5 @@ __all__ = classes = [
     "Multikrum",
     "Centeredclipping",
     "EnsembleAggregator",
+    "RandomEnsembleAggregator",
 ]
