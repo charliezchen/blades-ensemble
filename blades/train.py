@@ -286,6 +286,7 @@ def run(
                 "sync_config": {
                     "upload_dir": upload_dir,
                 },
+                "max_failures": 2,
             }
         }
 
