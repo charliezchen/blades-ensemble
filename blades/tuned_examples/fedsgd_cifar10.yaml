@@ -21,10 +21,10 @@ fedavg_blades_v2:
     evaluation_interval: 50
 
     num_remote_workers: 0
-    num_gpus_per_worker: 0.5
+    num_gpus_per_worker: 1
     num_cpus_per_worker: 0
     num_cpus_for_driver: 4
-    num_gpus_for_driver: 0.5
+    num_gpus_for_driver: 1
 
     global_model: resnet
 
@@ -41,24 +41,24 @@ fedavg_blades_v2:
     server_config:
       aggregator:
         grid_search:
-        - type: Median,
-        - type: Trimmedmean,
-        - type: Signguard,
-        - type: Multikrum,
+        - type: Median
+        - type: Trimmedmean
+        - type: Signguard
+        - type: Multikrum
           # type: Clippedclustering,
           # type: Median,
         - type: blades.aggregators.EnsembleAggregator
           aggregators_config: 
-          - name: Median,
-          - name: Trimmedmean,
-          - name: Signguard,
-          - name: Multikrum,
+          - name: Median
+          - name: Trimmedmean
+          - name: Signguard
+          - name: Multikrum
         - type: blades.aggregators.RandomEnsembleAggregator
           aggregators_config: 
-          - name: Median,
-          - name: Trimmedmean,
-          - name: Signguard,
-          - name: Multikrum,
+          - name: Median
+          - name: Trimmedmean
+          - name: Signguard
+          - name: Multikrum
           # type: GeoMed,
           # type: DnC,
           # type: Trimmedmean,
