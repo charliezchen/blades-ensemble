@@ -1,4 +1,4 @@
-fedavg_blades:
+fedavg_blades_v2:
   run: FEDAVG
   stop:
     training_iteration: 200
@@ -41,13 +41,24 @@ fedavg_blades:
     server_config:
       aggregator:
         grid_search:
-          # type: Mean,
+        - type: Median,
+        - type: Trimmedmean,
+        - type: Signguard,
+        - type: Multikrum,
           # type: Clippedclustering,
           # type: Median,
         - type: blades.aggregators.EnsembleAggregator
           aggregators_config: 
-          - name: Mean
-          - name: Median
+          - name: Median,
+          - name: Trimmedmean,
+          - name: Signguard,
+          - name: Multikrum,
+        - type: blades.aggregators.RandomEnsembleAggregator
+          aggregators_config: 
+          - name: Median,
+          - name: Trimmedmean,
+          - name: Signguard,
+          - name: Multikrum,
           # type: GeoMed,
           # type: DnC,
           # type: Trimmedmean,
@@ -64,18 +75,18 @@ fedavg_blades:
           grid_search: [0.0]
 
     num_malicious_clients:
-      grid_search:  [3]
+      grid_search:  [0, 6, 12, 18, 24, 30]
       # grid_search:  [26, 9]
       # grid_search:  [3, 6, 9, 12, 15, 18]
 
     adversary_config:
       grid_search:
-        # - type: blades.adversaries.ALIEAdversary
-        # - type: blades.adversaries.LabelFlipAdversary
-        # - type: blades.adversaries.NoiseAdversary
-        # - type: blades.adversaries.SignFlipAdversary
-        # - type: blades.adversaries.IPMAdversary
-        #   scale: 0.1
-        # - type: blades.adversaries.IPMAdversary
-        #   scale: 100
+        - type: blades.adversaries.ALIEAdversary
+        - type: blades.adversaries.LabelFlipAdversary
+        - type: blades.adversaries.NoiseAdversary
+        - type: blades.adversaries.SignFlipAdversary
+        - type: blades.adversaries.IPMAdversary
+          scale: 0.1
+        - type: blades.adversaries.IPMAdversary
+          scale: 100
         - type: blades.adversaries.MinMaxAdversary
