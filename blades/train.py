@@ -122,6 +122,7 @@ def load_experiments_from_file(
 
     for key, _ in experiments.items():
         experiments[key]["checkpoint_config"] = checkpoint_config or {}
+        experiments[key]["max_failures"] = 2
     return experiments
 
 
