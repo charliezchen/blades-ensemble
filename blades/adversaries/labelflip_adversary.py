@@ -24,6 +24,6 @@ class LabelFlipAdversary(Adversary):
         model = trainer.server.get_global_model()
         with torch.no_grad():
             for data, _ in test_loader:
-                output = model(data)
+                output = model(data.cuda())
                 break
         return output.shape[1]

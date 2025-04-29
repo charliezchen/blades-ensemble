@@ -1,7 +1,7 @@
-fedavg_blades_v2:
+fedavg_blades_v3:
   run: FEDAVG
   stop:
-    training_iteration: 200
+    training_iteration: 1000
 
   config:
     random_seed:
@@ -9,7 +9,7 @@ fedavg_blades_v2:
       grid_search: [121]
     dataset_config:
       type: CIFAR10
-      num_clients: 60
+      num_clients: 61
       num_classes: 10
       train_batch_size: 64
 
