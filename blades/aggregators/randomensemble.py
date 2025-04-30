@@ -22,7 +22,7 @@ class RandomEnsembleAggregator(object):
         >>> result = ensemble(inputs)
     """
     
-    def __init__(self, aggregators_config: List[Dict[str, Any]]):
+    def __init__(self, num_byzantine, aggregators_config: List[Dict[str, Any]]):
         """Initialize the random ensemble aggregator with a list of aggregator configurations.
         
         Args:
@@ -47,6 +47,11 @@ class RandomEnsembleAggregator(object):
             name = agg_config["name"]
             params = agg_config.get("params", {})
             
+            if ("DnC" in name) \
+                or ("Trimmedmean" in name) \
+                or ("Multikrum" in name):
+                params['num_byzantine'] = num_byzantine
+
             # Get the aggregator class
             agg_class = getattr(parent_module, name)
             

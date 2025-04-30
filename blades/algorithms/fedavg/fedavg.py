@@ -83,6 +83,7 @@ class FedavgConfig(FedavgTrainerConfig):
                 "DnC" == self.server_config["aggregator"]["type"]
                 or "Trimmedmean" in self.server_config["aggregator"]["type"]
                 or "Multikrum" in self.server_config["aggregator"]["type"]
+                or "Ensemble" in self.server_config["aggregator"]["type"]
             )
         ):
             self.server_config["aggregator"][

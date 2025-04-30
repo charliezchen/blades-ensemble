@@ -395,7 +395,7 @@ def run_fedlib_experiments(
 
     checkpoints = []
     for trial in trials:
-        if trial.checkpoint.dir_or_data:
+        if False and trial.checkpoint.dir_or_data:
             checkpoints.append(trial.checkpoint.dir_or_data)
 
     if checkpoints:

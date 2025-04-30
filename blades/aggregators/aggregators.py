@@ -50,7 +50,7 @@ class Trimmedmean(object):
     of its elements.
     """
 
-    def __init__(self, num_byzantine=30, *, filter_frac=1.0):
+    def __init__(self, num_byzantine, *, filter_frac=1.0):
         if filter_frac > 1.0 or filter_frac < 0.0:
             raise ValueError(f"filter_frac should be in [0.0, 1.0], got {filter_frac}.")
 
