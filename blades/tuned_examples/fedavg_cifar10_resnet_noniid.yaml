@@ -1,7 +1,7 @@
-fedavg_blades_v2:
+fedavg_blades_v4:
   run: FEDAVG
   stop:
-    training_iteration: 2000
+    training_iteration: 1000
     # train_loss: 100000
 
   config:
@@ -88,5 +88,5 @@ fedavg_blades_v2:
         - type: blades.adversaries.AdaptiveAdversary
         - type: blades.adversaries.IPMAdversary
           scale: 0.1
-        - type: blades.adversaries.IPMAdversary
-          scale: 100
+        # - type: blades.adversaries.IPMAdversary
+        #   scale: 100
