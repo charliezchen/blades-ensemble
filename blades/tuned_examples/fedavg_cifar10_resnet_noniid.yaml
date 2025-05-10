@@ -1,7 +1,7 @@
-fedavg_blades_v4:
+fedavg_blades_2000:
   run: FEDAVG
   stop:
-    training_iteration: 1000
+    training_iteration: 2000
     # train_loss: 100000
 
   config:
@@ -22,10 +22,10 @@ fedavg_blades_v4:
     evaluation_interval: 50
 
     num_remote_workers: 0
-    num_gpus_per_worker: 0.3
+    num_gpus_per_worker: 0.5
     num_cpus_per_worker: 0
     num_cpus_for_driver: 4
-    num_gpus_for_driver: 0.3
+    num_gpus_for_driver: 0.5
 
     # num_remote_workers: 14
     # num_gpus_per_worker: 0.25
@@ -49,21 +49,41 @@ fedavg_blades_v4:
       aggregator:
         grid_search: 
           - type: Median
-          - type: Trimmedmean
           - type: Signguard
           - type: Multikrum
+          - type: DnC
+          - type: Clippedclustering
           - type: blades.aggregators.EnsembleAggregator
+            agg: mean
             aggregators_config: 
             - name: Median
-            - name: Trimmedmean
             - name: Signguard
             - name: Multikrum
+            - name: DnC
+            - name: Clippedclustering
+          - type: blades.aggregators.EnsembleAggregator
+            agg: median
+            aggregators_config: 
+            - name: Median
+            - name: Signguard
+            - name: Multikrum
+            - name: DnC
+            - name: Clippedclustering
+          - type: blades.aggregators.EnsembleAggregator
+            agg: scale_mean_unscale
+            aggregators_config: 
+            - name: Median
+            - name: Signguard
+            - name: Multikrum
+            - name: DnC
+            - name: Clippedclustering
           - type: blades.aggregators.RandomEnsembleAggregator
             aggregators_config: 
             - name: Median
-            - name: Trimmedmean
             - name: Signguard
             - name: Multikrum
+            - name: DnC
+            - name: Clippedclustering
 
       optimizer:
         type: SGD
@@ -82,9 +102,7 @@ fedavg_blades_v4:
       # type: blades.adversaries.LabelFlipAdversary
       grid_search:
         - type: blades.adversaries.ALIEAdversary
-        - type: blades.adversaries.LabelFlipAdversary
         - type: blades.adversaries.NoiseAdversary
-        - type: blades.adversaries.SignFlipAdversary
         - type: blades.adversaries.AdaptiveAdversary
         - type: blades.adversaries.IPMAdversary
           scale: 0.1

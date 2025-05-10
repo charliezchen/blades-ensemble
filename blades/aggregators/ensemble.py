@@ -2,7 +2,8 @@ from typing import List, Dict, Any, Optional, Type
 import importlib
 import sys
 import torch
-
+import torch.nn.functional as F
+import math
 
 class EnsembleAggregator(object):
     """Aggregator that combines multiple aggregators by averaging their results.
@@ -21,7 +22,7 @@ class EnsembleAggregator(object):
         >>> result = ensemble(inputs)
     """
     
-    def __init__(self, num_byzantine, aggregators_config: List[Dict[str, Any]]):
+    def __init__(self, num_byzantine, aggregators_config: List[Dict[str, Any]], agg="mean"):
         """Initialize the ensemble aggregator with a list of aggregator configurations.
         
         Args:
@@ -58,6 +59,7 @@ class EnsembleAggregator(object):
             agg_instance = agg_class(**params)
             
             self.aggregators.append(agg_instance)
+        self.agg = agg
     
     def __call__(self, inputs: List[torch.Tensor]):
         """Apply all aggregators and average their results.
@@ -72,6 +74,15 @@ class EnsembleAggregator(object):
         results = [agg(inputs) for agg in self.aggregators]
         
         # Average the results
-        ensemble_result = torch.stack(results).mean(dim=0)
+        if self.agg == "mean":
+            ensemble_result = torch.stack(results).mean(dim=0)
+        elif self.agg == "median":
+            ensemble_result = torch.stack(results).median(dim=0)[0]  # Get values only
+        elif self.agg == "scale_mean_unscale":
+            norms = torch.tensor([torch.linalg.norm(mat) for mat in results])
+            normalized = [mat/(norm+1e-6) for mat, norm in zip(results, norms)]
+            avg_res = torch.stack(normalized).mean(dim=0)
+            median_norm = torch.median(norms)
+            ensemble_result = avg_res * median_norm
         
         return ensemble_result
